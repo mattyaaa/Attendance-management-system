@@ -1,0 +1,158 @@
+/* ベーススタイル */
+body,
+html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* ヘッダーセクション */
+.header {
+    background-color: rgba(0, 0, 0, 1);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header__inner {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+/* ヘッダーロゴ */
+.header-logo {
+    display: flex;
+    align-items: center;
+}
+
+.header-logo img {
+    height: 50px;
+    margin-right: 20px;
+}
+
+/* ナビゲーション */
+.header-nav {
+    flex-grow: 1;
+    display: flex;
+    justify-content: right;
+}
+
+.header-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 15px;
+}
+
+.header-nav ul li {
+    display: inline;
+}
+
+.header-nav ul li a {
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.header-nav ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* 特別なスタイル: 出品ボタン */
+.header-nav ul li a.sell {
+    background-color: white;
+    color: black;
+    border: 1px solid #333;
+    padding: 10px 20px;
+}
+
+.header-nav ul li a.sell:hover {
+    background-color: #f4f4f4;
+}
+
+/* ログアウトボタン */
+.logout-form {
+    display: inline-block;
+}
+
+.logout-form button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.logout-form button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* レスポンシブ対応: PC向け (1400-1540px) */
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .header {
+        padding: 20px 40px;
+    }
+
+    .header-nav ul li a {
+        padding: 15px;
+        font-size: 18px;
+    }
+
+    .header-nav ul li a.sell {
+        padding: 15px 30px;
+    }
+
+    .login__content,
+    .register__content {
+        max-width: 500px;
+    }
+
+    .form__button-submit {
+        padding: 12px 24px;
+        font-size: 18px;
+    }
+}
+
+/* レスポンシブ対応: タブレット向け (768-850px) */
+@media (min-width: 768px) and (max-width: 850px) {
+    .header {
+        padding: 15px 30px;
+    }
+
+    .header-nav ul {
+        gap: 10px;
+    }
+
+    .header-nav ul li a {
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .header-nav ul li a.sell {
+        padding: 10px 20px;
+    }
+
+    .login__content,
+    .register__content {
+        width: 90%;
+        padding: 15px;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .form__button-submit {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+}
