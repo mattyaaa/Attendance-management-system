@@ -4,10 +4,8 @@
     padding: 20px;
     border-radius: 8px;
     width: 680px;
-    height: 656px;
-    position: absolute;
-    top: 200px;
-    left: 416px;
+    height: auto;
+    margin: 200px auto;
     box-sizing: border-box;
     text-align: center;
 }
@@ -52,10 +50,8 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
-    width: 610px;
+    width: 640px;
     box-sizing: border-box;
-    border-width: 1px;
-    border-radius: 4px;
 }
 
 .form__error {
@@ -77,7 +73,7 @@
     color: #fff;
     padding: 10px 20px;
     border: none;
-    width: 610px;
+    width: 100%;
     border-radius: 4px;
     font-size: 22px;
     cursor: pointer;
@@ -102,9 +98,7 @@
 @media (min-width: 1400px) and (max-width: 1540px) {
     .register__content {
         width: 700px;
-        height: auto;
-        top: 150px;
-        left: calc(50% - 350px);
+        margin: 150px auto;
     }
 
     .form__input--text input[type="text"],
@@ -118,26 +112,24 @@
     }
 }
 
-/* タブレット (768-850px) */
+/* タブレット (768px-850px) */
 @media (min-width: 768px) and (max-width: 850px) {
     .register__content {
         width: 90%;
-        height: auto;
-        top: 100px;
-        left: 5%;
+        margin: 50px auto;
     }
 
     .form__label--item {
-        font-size: 18px;
+        font-size: 16px;
     }
 
-    .form__input--text input[type="text"],
-    .form__input--text input[type="email"],
-    .form__input--text input[type="password"] {
-        width: 100%;
+    .form__input--text input {
+        font-size: 16px;
+        padding: 10px;
     }
 
     .form__button-submit {
-        width: 100%;
+        font-size: 16px;
+        padding: 10px;
     }
 }
