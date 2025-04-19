@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Fortify;
+use Laravel\Fortify\Http\Requests\LoginRequest;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -44,6 +45,17 @@ class FortifyServiceProvider extends ServiceProvider
 
             // それ以外は一般ユーザーのログインビューを返す
             return view('users.login');
+        });
+
+        Fortify::authenticateUsing(function (LoginRequest $request) {
+        $credentials = $request->only('email', 'password');
+
+        if (auth()->attempt($credentials)) {
+            return auth()->user();
+        }
+
+            session()->flash('error', 'メールアドレスまたはパスワードが正しくありません。');
+            return null;
         });
 
         // 一般ユーザーのRate Limiter
