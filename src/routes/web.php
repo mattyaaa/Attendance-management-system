@@ -18,3 +18,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/attendance', [AttendanceController::class, 'showRegisterForm'])->name('attendance.form');
     Route::post('/attendance', [AttendanceController::class, 'register'])->name('attendance.register');
 });
+
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/login');
+})->name('logout');
