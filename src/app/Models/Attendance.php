@@ -14,6 +14,7 @@ class Attendance extends Model
         'date',
         'time_in',
         'time_out',
+        'status',
     ];
 
     // Userとのリレーション

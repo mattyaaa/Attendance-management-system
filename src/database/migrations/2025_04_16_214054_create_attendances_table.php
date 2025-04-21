@@ -17,6 +17,7 @@ return new class extends Migration
             $table->date('date');
             $table->time('time_in')->nullable();
             $table->time('time_out')->nullable();
+            $table->string('status')->default('none');
             $table->timestamps();
         });
     }

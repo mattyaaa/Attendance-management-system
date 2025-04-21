@@ -9,6 +9,8 @@ class BreakTime extends Model
 {
     use HasFactory;
 
+    protected $table = 'breaks';
+
     protected $fillable = [
         'user_id',
         'date',

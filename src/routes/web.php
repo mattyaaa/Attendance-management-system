@@ -16,7 +16,10 @@ use App\Http\Controllers\AttendanceController;
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/attendance', [AttendanceController::class, 'showRegisterForm'])->name('attendance.form');
-    Route::post('/attendance', [AttendanceController::class, 'register'])->name('attendance.register');
+    Route::post('/attendance/start', [AttendanceController::class, 'start'])->name('attendance.start');
+    Route::post('/attendance/break_start', [AttendanceController::class, 'breakStart'])->name('attendance.break_start');
+    Route::post('/attendance/break_end', [AttendanceController::class, 'breakEnd'])->name('attendance.break_end');
+    Route::post('/attendance/end', [AttendanceController::class, 'end'])->name('attendance.end');
 });
 
 Route::post('/logout', function () {
