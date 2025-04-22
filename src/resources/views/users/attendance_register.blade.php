@@ -28,8 +28,8 @@
     $currentDay = $weekDays[now()->dayOfWeek];
     ?>
     <div class="current-date">
-        <h3>{{ now()->format('Y年n月j日') }}（{{ $currentDay }}）</h3>
-        <h3>{{ now()->format('H:i') }}</h3>
+        <h3 class="current-date__day">{{ now()->format('Y年n月j日') }}（{{ $currentDay }}）</h3>
+    <h3 class="current-date__time">{{ now()->format('H:i') }}</h3>
 
     {{-- 勤務外時 --}}
     @if ($status === 'none')
@@ -40,13 +40,13 @@
 
     {{-- 出勤中時 --}}
     @elseif ($status === 'working')
-        <form action="{{ route('attendance.break_start') }}" method="POST" style="display: inline;">
-            @csrf
-            <button type="submit" class="btn btn-warning">休憩入</button>
-        </form>
         <form action="{{ route('attendance.end') }}" method="POST" style="display: inline;">
             @csrf
             <button type="submit" class="btn btn-danger">退勤</button>
+        </form>
+        <form action="{{ route('attendance.break_start') }}" method="POST" style="display: inline;">
+            @csrf
+            <button type="submit" class="btn btn-warning">休憩入</button>
         </form>
 
     {{-- 休憩中時 --}}

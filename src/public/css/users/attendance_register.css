@@ -1,0 +1,177 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #F0EFF2;
+    height: 100%;
+}
+.container {
+    margin: 50px auto;
+    padding: 50px;
+    font-family: 'Arial', sans-serif;
+}
+
+/* ステータスのスタイル */
+.status {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.status h2 {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* 統一されたバッジのスタイル */
+.badge {
+    padding: 10px 15px;
+    border-radius: 50px;
+    font-size: 1em;
+    background-color: #C8C8C8;
+    color: #696969;
+}
+
+/* 日付と時刻の表示スタイル */
+.current-date {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.current-date__day {
+    font-size: 40px;
+    font-weight: normal;
+    margin: 10px 0;
+    color: #000000;
+}
+
+.current-date__time {
+    font-size: 80px;
+    font-weight: bold;
+    margin: 10px 0;
+    color: #000000;
+}
+
+/* 出勤ボタンと退勤ボタンのスタイル */
+.btn-primary,
+.btn-danger {
+    background-color: #000000;
+    color: #FFFFFF;
+    border: none;
+    padding: 10px 50px;
+    font-size: 32px;
+    border-radius:20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover,
+.btn-danger:hover {
+    background-color: #333333;
+    transform: scale(1.05);
+}
+
+/* 休憩入ボタンと休憩戻ボタンのスタイル */
+.btn-warning,
+.btn-success {
+    background-color: #FFFFFF;
+    color: #000000;
+    border: none;
+    padding: 10px 50px;
+    font-size: 32px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-warning:hover,
+.btn-success:hover {
+    background-color: #F0F0F0;
+    transform: scale(1.05);
+}
+
+/* ボタン間の隙間を作る */
+form {
+    display: inline-block;
+    margin-right: 40px;
+}
+
+/* ボタンの配置を横並びに */
+button.btn+button.btn {
+    margin-left: 10px;
+}
+
+/* メッセージのスタイル */
+h3 {
+    font-size: 26px;
+    text-align: center;
+    color: #000000;
+}
+
+/* ======== レスポンシブデザイン (1400px ~ 1540px) ======== */
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .container {
+        max-width: 1000px;
+        padding: 40px;
+    }
+
+    .status h2 {
+        font-size: 24px;
+    }
+
+    .current-date__day {
+        font-size: 48px;
+    }
+
+    .current-date__time {
+        font-size: 88px;
+    }
+
+    button.btn {
+        font-size: 1.2em;
+        padding: 15px 30px;
+    }
+
+    form {
+        margin-right: 20px;
+    }
+}
+
+/* ======== レスポンシブデザイン (768px ~ 850px) ======== */
+@media (min-width: 768px) and (max-width: 850px) {
+    .container {
+        max-width: 95%;
+        padding: 20px;
+    }
+
+    .status h2 {
+        font-size: 20px;
+    }
+
+    .current-date__day {
+        font-size: 36px;
+    }
+
+    .current-date__time {
+        font-size: 72px;
+    }
+
+    button.btn {
+        font-size: 1em;
+        padding: 10px 20px;
+    }
+
+    form {
+        margin-right: 10px;
+        margin-bottom: 10px;
+        display: inline-block;
+    }
+
+    .status,
+    .current-date {
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    button.btn+button.btn {
+        margin-left: 10px;
+    }
+}
