@@ -15,13 +15,23 @@ use App\Http\Controllers\AttendanceController;
 */
 
 Route::middleware(['auth'])->group(function () {
+    // 勤怠管理: 勤怠登録画面の表示
     Route::get('/attendance', [AttendanceController::class, 'showRegisterForm'])->name('attendance.form');
+
+    // 勤怠管理: 出勤・退勤・休憩関連のアクション
     Route::post('/attendance/start', [AttendanceController::class, 'start'])->name('attendance.start');
     Route::post('/attendance/break_start', [AttendanceController::class, 'breakStart'])->name('attendance.break_start');
     Route::post('/attendance/break_end', [AttendanceController::class, 'breakEnd'])->name('attendance.break_end');
     Route::post('/attendance/end', [AttendanceController::class, 'end'])->name('attendance.end');
+
+    // 勤怠一覧
+    Route::get('/attendance/list', [AttendanceController::class, 'index'])->name('attendance.list');
+    // 勤怠詳細
+    Route::get('/attendance/details/{date}', [AttendanceController::class, 'details'])->name('attendance.details');
+    Route::put('/attendance/update/{date}', [AttendanceController::class, 'update'])->name('attendance.update');
 });
 
+// ログアウト処理
 Route::post('/logout', function () {
     Auth::logout();
     return redirect('/login');
