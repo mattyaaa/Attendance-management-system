@@ -1,0 +1,159 @@
+/* 全体のスタイル */
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #F0EFF2;
+    height: 100%;
+}
+.attendance-list-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.attendance-list-title {
+    font-size: 30px;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-left: #000000 5px solid;
+}
+
+/* 月切り替え部分 */
+.month-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #FFFFFF;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/* 前月ボタン */
+.month-navigation .previous-month {
+    margin-right: auto;
+}
+/* 前月ボタンの矢印アイコンのスタイル */
+.previous-month .arrow-icon {
+    max-width: 100%;
+    max-height: 100%;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+/* 現在の月 */
+.month-navigation .current-month {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin: 0 auto;
+    color: #000000;
+}
+/* 現在の月のスタイル */
+.current-month {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin: 0 auto;
+    color: #000000;
+}
+
+/* 画像のスタイル */
+.month-icon {
+    max-width: 100%;
+    max-height: 100%;
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+}
+
+
+/* 翌月ボタン */
+.month-navigation .next-month {
+    margin-left: auto;
+}
+
+/* 翌月ボタンの矢印アイコンのスタイル */
+.next-month .arrow-icon {
+    max-width: 100%;
+    max-height: 100%;
+    width: 16px;
+    height: 16px;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+/* 矢印画像を反転 */
+.arrow-icon.flipped {
+    transform: scaleX(-1);
+}
+
+/* ボタンのスタイル */
+.btn{
+    color: #737373;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
+/* テーブルのスタイル */
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+
+
+.attendance-table-header th {
+    padding: 12px;
+    text-align: center;
+    font-size: 16px;
+    color: #737373;
+    border-bottom: #E1E1E1 3px solid;
+}
+
+.attendance-table-body td {
+    padding: 12px;
+    font-size: 16px;
+    color: #737373;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+.attendance-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.attendance-table tr:hover {
+    background-color: #e9ecef;
+}
+
+/* 詳細ボタン */
+.btn-primary {
+    font-size: 16px;
+    color: #000000;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+.btn-primary:hover {
+    color: #555;
+}
+
