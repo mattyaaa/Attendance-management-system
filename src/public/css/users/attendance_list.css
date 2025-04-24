@@ -157,3 +157,71 @@ body {
     color: #555;
 }
 
+/* PC (1400-1540px) */
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .attendance-list-container {
+        max-width: 1200px;
+        padding: 30px;
+    }
+
+    .attendance-list-title {
+        font-size: 28px;
+    }
+
+    .attendance-table th,
+    .attendance-table td {
+        font-size: 18px;
+    }
+
+    .btn {
+        font-size: 18px;
+        padding: 12px 24px;
+    }
+}
+
+/* タブレット (768-850px) */
+@media (min-width: 768px) and (max-width: 850px) {
+    .attendance-list-container {
+        max-width: 100%;
+        padding: 15px;
+    }
+
+    .attendance-list-title {
+        font-size: 24px;
+    }
+
+    .month-navigation {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .attendance-table {
+        font-size: 14px;
+    }
+
+    .attendance-table th,
+    .attendance-table td {
+        padding: 8px;
+    }
+
+    .btn {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+
+    .month-navigation .current-month {
+        font-size: 18px;
+    }
+
+    .arrow-icon {
+        width: 14px;
+        height: 14px;
+    }
+
+    .month-icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+    }
+}
+
