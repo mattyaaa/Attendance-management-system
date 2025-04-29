@@ -49,17 +49,16 @@ class AttendanceController extends Controller
         // ステータス変更処理
         $this->updateStatus($user, 'break');
 
-        // 休憩レコードの作成または更新
-        $breakTime = BreakTime::firstOrCreate(
-            ['user_id' => $user->id, 'date' => today()->toDateString()],
-            ['break_in_1' => now()]
-        );
+        // 勤怠データを取得
+        $attendance = Attendance::where('user_id', $user->id)
+            ->where('date', today()->toDateString())
+            ->firstOrFail();
 
-        if (!$breakTime->break_in_1) {
-            $breakTime->update(['break_in_1' => now()]);
-        } elseif (!$breakTime->break_in_2) {
-            $breakTime->update(['break_in_2' => now()]);
-        }
+        // 新しい休憩レコードを作成
+        BreakTime::create([
+            'attendance_id' => $attendance->id,
+            'break_in' => now(), // 休憩開始時間を記録
+        ]);
 
         return redirect()->route('attendance.form');
     }
@@ -74,16 +73,21 @@ class AttendanceController extends Controller
         // ステータス変更処理
         $this->updateStatus($user, 'working');
 
-        // 休憩終了時間の記録
-        $breakTime = BreakTime::where('user_id', $user->id)
+        // 勤怠データを取得
+        $attendance = Attendance::where('user_id', $user->id)
             ->where('date', today()->toDateString())
             ->firstOrFail();
 
-        if ($breakTime->break_in_1 && !$breakTime->break_out_1) {
-            $breakTime->update(['break_out_1' => now()]);
-        } elseif ($breakTime->break_in_2 && !$breakTime->break_out_2) {
-            $breakTime->update(['break_out_2' => now()]);
-        }
+        // 最後の休憩レコードを取得
+        $breakTime = BreakTime::where('attendance_id', $attendance->id)
+            ->whereNull('break_out') // まだ終了していない休憩を取得
+            ->latest('break_in') // 最新の休憩を取得
+            ->firstOrFail();
+
+        // 休憩終了時間を記録
+        $breakTime->update([
+            'break_out' => now(),
+        ]);
 
         return redirect()->route('attendance.form');
     }
@@ -159,52 +163,36 @@ class AttendanceController extends Controller
 
     public function details($date)
 {
-    // ログインユーザーを取得
-    $user = Auth::user();
+    $attendance = Attendance::where('date', $date)->where('user_id', auth()->id())->firstOrFail();
+    $breakTimes = BreakTime::where('attendance_id', $attendance->id)->get();
 
-    // 指定された日の勤怠情報を取得
-    $attendance = Attendance::where('user_id', $user->id)
-        ->where('date', $date)
-        ->first();
-
-    // 休憩情報を取得
-    $breakTime = BreakTime::where('user_id', $user->id)
-        ->where('date', $date)
-        ->first();
-
-    // 勤怠詳細画面を表示
     return view('users.attendance_details', [
         'attendance' => $attendance,
-        'breakTime' => $breakTime,
+        'breakTimes' => $breakTimes,
         'date' => $date,
     ]);
 }
+
 public function update(Request $request, $date)
 {
-    $user = Auth::user();
-
-    // 勤怠情報を取得または新規作成
-    $attendance = Attendance::firstOrNew([
-        'user_id' => $user->id,
-        'date' => $date,
-    ]);
-
-    // 入力内容を保存
+    $attendance = Attendance::where('date', $date)->where('user_id', auth()->id())->firstOrFail();
     $attendance->time_in = $request->input('time_in');
     $attendance->time_out = $request->input('time_out');
     $attendance->remarks = $request->input('remarks');
     $attendance->save();
 
-    // 休憩情報を保存
-    $breakTime = BreakTime::firstOrNew([
-        'user_id' => $user->id,
-        'date' => $date,
-    ]);
+    if ($request->has('breaks')) {
+        foreach ($request->input('breaks') as $key => $break) {
+            if (!empty($break['break_in']) && !empty($break['break_out'])) {
+                BreakTime::updateOrCreate(
+                    ['attendance_id' => $attendance->id, 'break_in' => $break['break_in']],
+                    ['break_out' => $break['break_out']]
+                );
+            }
+        }
+    }
 
-    $breakTime->break_in_1 = $request->input('break_in_1');
-    $breakTime->break_out_1 = $request->input('break_out_1');
-    $breakTime->save();
-
-    return redirect()->route('attendance.list')->with('success', '修正が完了しました。');
+    return redirect()->route('attendance.details', ['date' => $date])
+        ->with('success', '勤怠情報を更新しました！');
 }
 }

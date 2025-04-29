@@ -55,38 +55,30 @@
                 @endphp
 
                 @for ($date = $startOfMonth; $date <= $endOfMonth; $date->addDay())
-                    <tr>
-                        @php
-                            // 現在の日付に対応する勤怠データを取得
-                            $attendance = $attendanceMap->get($date->toDateString());
-                            $breakInstance = $attendance ? \App\Models\BreakTime::where('user_id', $attendance->user_id)
-                                ->where('date', $attendance->date)
-                                ->first() : null;
+                    @php
+                        // 現在の日付に対応する勤怠データを取得
+                        $attendance = $attendanceMap->get($date->toDateString());
 
-                            $totalBreakTime = 0;
-
-                            if ($breakInstance) {
-                                // 1回目の休憩時間を計算
-                                if ($breakInstance->break_in_1 && $breakInstance->break_out_1) {
-                                    $totalBreakTime += \Carbon\Carbon::parse($breakInstance->break_in_1)
-                                        ->diffInMinutes(\Carbon\Carbon::parse($breakInstance->break_out_1));
-                                }
-
-                                // 2回目の休憩時間を計算
-                                if ($breakInstance->break_in_2 && $breakInstance->break_out_2) {
-                                    $totalBreakTime += \Carbon\Carbon::parse($breakInstance->break_in_2)
-                                        ->diffInMinutes(\Carbon\Carbon::parse($breakInstance->break_out_2));
+                        // 休憩時間の合計を計算
+                        $totalBreakTime = 0;
+                        if ($attendance) {
+                            $breaks = $attendance->breakTimes; // リレーションを使用して取得
+                            foreach ($breaks as $break) {
+                                if ($break->break_in && $break->break_out) {
+                                    $totalBreakTime += \Carbon\Carbon::parse($break->break_in)
+                                        ->diffInMinutes(\Carbon\Carbon::parse($break->break_out));
                                 }
                             }
+                        }
 
-                            // 合計時間の計算
-                            $timeIn = $attendance ? \Carbon\Carbon::parse($attendance->time_in) : null;
-                            $timeOut = $attendance ? \Carbon\Carbon::parse($attendance->time_out) : null;
+                        // 勤務時間の計算
+                        $timeIn = $attendance ? \Carbon\Carbon::parse($attendance->time_in) : null;
+                        $timeOut = $attendance ? \Carbon\Carbon::parse($attendance->time_out) : null;
 
-                            $totalMinutes = ($timeIn && $timeOut) 
-                                ? $timeIn->diffInMinutes($timeOut) - $totalBreakTime 
-                                : 0;
-                        @endphp
+                        $totalMinutes = ($timeIn && $timeOut)
+                            ? $timeIn->diffInMinutes($timeOut) - $totalBreakTime
+                            : 0;
+                    @endphp
 
                         <!-- 日付 -->
                         <td class="attendance-date">{{ $date->format('m/d') }}（{{ $date->isoFormat('ddd') }}）</td>

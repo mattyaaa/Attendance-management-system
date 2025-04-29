@@ -13,12 +13,10 @@ return new class extends Migration
     {
         Schema::create('breaks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->date('date');
-            $table->time('break_in_1')->nullable();
-            $table->time('break_out_1')->nullable();
-            $table->time('break_in_2')->nullable();
-            $table->time('break_out_2')->nullable();
+            $table->unsignedBigInteger('attendance_id'); // カラム定義
+            $table->foreign('attendance_id')->references('id')->on('attendances')->onDelete('cascade'); // 外部キー制約
+            $table->time('break_in')->nullable(); // 休憩開始
+            $table->time('break_out')->nullable(); // 休憩終了
             $table->timestamps();
         });
     }

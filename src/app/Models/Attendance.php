@@ -28,4 +28,9 @@ class Attendance extends Model
     {
         return $this->hasMany(AttendanceRequest::class);
     }
+    // 休憩時間とのリレーション
+    public function breakTimes()
+    {
+        return $this->hasMany(BreakTime::class);
+    }
 }

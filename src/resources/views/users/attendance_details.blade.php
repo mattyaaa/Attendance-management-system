@@ -19,19 +19,45 @@
                     <th>出勤・退勤</th>
                     <td>
                         <div class="d-flex align-items-center">
-                            <input type="time" name="time_in" value="{{ $attendance->time_in }}" class="form-control me-2">
+                            <input type="text" name="time_in" 
+                                   value="{{ $attendance->time_in ? \Carbon\Carbon::parse($attendance->time_in)->format('H:i') : '' }}" 
+                                   class="form-control me-2">
                             〜
-                            <input type="time" name="time_out" value="{{ $attendance->time_out }}" class="form-control ms-2">
+                            <input type="text" name="time_out" 
+                                   value="{{ $attendance->time_out ? \Carbon\Carbon::parse($attendance->time_out)->format('H:i') : '' }}" 
+                                   class="form-control ms-2">
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <th>休憩</th>
                     <td>
-                        <div class="d-flex align-items-center">
-                            <input type="time" name="break_in_1" value="{{ $breakTime->break_in_1 ?? '' }}" class="form-control me-2">
+                        <!-- 既存の休憩データをループで表示 -->
+                        <div id="break-fields">
+                            @if ($breakTimes && $breakTimes->count() > 0)
+                                @foreach ($breakTimes as $index => $break)
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="me-2">休憩{{ $index + 1 }}</span>
+                                        <input type="text" name="breaks[{{ $index }}][break_in]" 
+                                               value="{{ $break->break_in ? \Carbon\Carbon::parse($break->break_in)->format('H:i') : '' }}" 
+                                               class="form-control me-2" >
+                                        〜
+                                        <input type="text" name="breaks[{{ $index }}][break_out]" 
+                                               value="{{ $break->break_out ? \Carbon\Carbon::parse($break->break_out)->format('H:i') : '' }}" 
+                                               class="form-control ms-2" >
+                                    </div>
+                                @endforeach
+                            @endif
+                        </div>
+
+                        <!-- 新しい休憩フィールド -->
+                        <div class="d-flex align-items-center mt-2">
+                            <span class="me-2">休憩{{ $index + 2 }}</span>
+                            <input type="text" name="breaks[new][break_in]" 
+                                   value="" class="form-control me-2" >
                             〜
-                            <input type="time" name="break_out_1" value="{{ $breakTime->break_out_1 ?? '' }}" class="form-control ms-2">
+                            <input type="text" name="breaks[new][break_out]" 
+                                   value="" class="form-control ms-2" >
                         </div>
                     </td>
                 </tr>

@@ -12,17 +12,11 @@ class BreakTime extends Model
     protected $table = 'breaks';
 
     protected $fillable = [
-        'user_id',
-        'date',
-        'break_in_1',
-        'break_out_1',
-        'break_in_2',
-        'break_out_2',
+        'attendance_id', 'break_in', 'break_out'
     ];
 
-    // Userとのリレーション
-    public function user()
+    public function attendance()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Attendance::class);
     }
 }
