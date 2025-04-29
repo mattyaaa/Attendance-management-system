@@ -101,9 +101,7 @@
 
                         <!-- 詳細 -->
                         <td class="attendance-details">
-                            @if ($attendance)
-                                <a href="{{ route('attendance.details', ['date' => $attendance->date]) }}" class="btn btn-primary">詳細</a>
-                            @endif
+                                <a href="{{ route('attendance.details', ['date' => $date->toDateString()]) }}" class="btn btn-primary">詳細</a>
                         </td>
                     </tr>
                 @endfor
