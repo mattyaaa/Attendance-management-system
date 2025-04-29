@@ -27,6 +27,13 @@
                                    value="{{ $attendance->time_out ? \Carbon\Carbon::parse($attendance->time_out)->format('H:i') : '' }}" 
                                    class="form-control ms-2">
                         </div>
+                        <!-- 出勤・退勤時間のエラーメッセージ -->
+                        @error('time_in')
+                            <div class="text-danger mt-1">{{ $message }}</div>
+                        @enderror
+                        @error('time_out')
+                            <div class="text-danger mt-1">{{ $message }}</div>
+                        @enderror
                     </td>
                 </tr>
                 <tr>
@@ -46,6 +53,13 @@
                                                value="{{ $break->break_out ? \Carbon\Carbon::parse($break->break_out)->format('H:i') : '' }}" 
                                                class="form-control ms-2" >
                                     </div>
+                                    <!-- 休憩時間のエラーメッセージ -->
+                                    @error("breaks.$index.break_in")
+                                        <div class="text-danger mt-1">{{ $message }}</div>
+                                    @enderror
+                                    @error("breaks.$index.break_out")
+                                        <div class="text-danger mt-1">{{ $message }}</div>
+                                    @enderror
                                 @endforeach
                             @endif
                         </div>
@@ -59,12 +73,23 @@
                             <input type="text" name="breaks[new][break_out]" 
                                    value="" class="form-control ms-2" >
                         </div>
+                        <!-- 新しい休憩時間のエラーメッセージ -->
+                        @error('breaks.new.break_in')
+                            <div class="text-danger mt-1">{{ $message }}</div>
+                        @enderror
+                        @error('breaks.new.break_out')
+                            <div class="text-danger mt-1">{{ $message }}</div>
+                        @enderror
                     </td>
                 </tr>
                 <tr>
                     <th>備考</th>
                     <td>
                         <textarea name="remarks" class="form-control" rows="3">{{ $attendance->remarks ?? '' }}</textarea>
+                        <!-- 備考欄のエラーメッセージ -->
+                        @error('remarks')
+                            <div class="text-danger mt-1">{{ $message }}</div>
+                        @enderror
                     </td>
                 </tr>
             </table>

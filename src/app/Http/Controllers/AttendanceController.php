@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AttendanceRequest;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\BreakTime;
@@ -173,7 +174,7 @@ class AttendanceController extends Controller
     ]);
 }
 
-public function update(Request $request, $date)
+public function update(AttendanceRequest $request, $date)
 {
     $attendance = Attendance::where('date', $date)->where('user_id', auth()->id())->firstOrFail();
     $attendance->time_in = $request->input('time_in');
