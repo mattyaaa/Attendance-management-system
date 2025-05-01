@@ -12,15 +12,11 @@ class AttendanceRequest extends Model
     protected $fillable = [
         'user_id',
         'attendance_id',
-        'name',
         'date',
         'time_in',
         'time_out',
-        'break_in_1',
-        'break_out_1',
-        'break_in_2',
-        'break_out_2',
         'remarks',
+        'status',
     ];
 
     // Userとのリレーション
@@ -35,9 +31,11 @@ class AttendanceRequest extends Model
         return $this->belongsTo(Attendance::class);
     }
 
-    // 修正申請の結果とのリレーション
-    public function result()
+    // BreakTimeとのリレーション
+    public function breaks()
     {
-        return $this->hasOne(AttendanceRequestResult::class);
+    return $this->hasMany(BreakTime::class, 'attendance_request_id');
     }
-}
+
+    }
+

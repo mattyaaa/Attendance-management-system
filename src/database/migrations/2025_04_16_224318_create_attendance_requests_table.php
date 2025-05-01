@@ -15,17 +15,13 @@ class CreateAttendanceRequestsTable extends Migration
     {
         Schema::create('attendance_requests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('attendance_id')->constrained('attendances');
-            $table->string('name', 255);
-            $table->date('date');
-            $table->time('time_in');
-            $table->time('time_out');
-            $table->time('break_in_1')->nullable();
-            $table->time('break_out_1')->nullable();
-            $table->time('break_in_2')->nullable();
-            $table->time('break_out_2')->nullable();
-            $table->text('remarks')->nullable();
+            $table->foreignId('user_id')->constrained('users'); // 修正申請を行ったユーザー
+            $table->foreignId('attendance_id')->constrained('attendances'); // 対象の勤怠データ
+            $table->date('date'); // 勤怠日
+            $table->time('time_in')->nullable(); // 修正後の出勤時間
+            $table->time('time_out')->nullable(); // 修正後の退勤時間
+            $table->text('remarks')->nullable(); // 備考
+            $table->enum('status', ['not_requested', 'pending', 'approved'])->default('not_requested'); // 修正申請のステータス
             $table->timestamps();
         });
     }

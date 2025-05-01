@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AttendanceRequest;
+use App\Http\Requests\AttendanceModificationRequest;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\BreakTime;
+use App\Models\AttendanceRequest;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
@@ -166,45 +167,93 @@ class AttendanceController extends Controller
 {
     $userId = auth()->id();
 
-        // 出勤情報を取得
-        $attendance = Attendance::where('user_id', $userId)
-            ->where('date', $date)
-            ->first();
+    // 出勤情報を取得
+    $attendance = Attendance::where('user_id', $userId)
+        ->where('date', $date)
+        ->first();
 
-        // 休憩情報を取得（存在しない場合は空のコレクション）
-        $breakTimes = $attendance ? $attendance->breakTimes : collect();
+    // 休憩情報を取得（存在しない場合は空のコレクション）
+    $breakTimes = $attendance ? $attendance->breakTimes : collect();
+
+    // 休憩情報を取得（存在しない場合は空のコレクション）
+    $breakTimes = $attendance ? $attendance->breakTimes : collect();
+
+    // 現在の修正申請のステータスを取得（デフォルトは not_requested）
+    $attendanceRequest = $attendance
+        ? AttendanceRequest::where('attendance_id', $attendance->id)->first()
+        : null;
+
+    $status = $attendanceRequest->status ?? 'not_requested';
 
     return view('users.attendance_details', [
         'attendance' => $attendance,
         'breakTimes' => $breakTimes,
         'date' => $date,
+        'status' => $status, // 修正申請の現在のステータス
     ]);
 }
 
-public function update(AttendanceRequest $request, $date)
+public function update(Request $request, $date)
+{
+    // 管理者のみがこのメソッドを利用可能
+    $this->authorize('update', Attendance::class);
+
+    $validated = $request->validate([
+        'time_in' => 'nullable|date_format:H:i',
+        'time_out' => 'nullable|date_format:H:i',
+        'breaks' => 'nullable|array',
+        'remarks' => 'nullable|string|max:255',
+    ]);
+
+    // 対象の勤怠データを取得
+    $attendance = Attendance::where('date', $date)
+        ->where('user_id', $request->input('user_id'))
+        ->firstOrFail();
+
+    // 勤怠データを更新
+    $attendance->update([
+        'time_in' => $validated['time_in'],
+        'time_out' => $validated['time_out'],
+        'remarks' => $validated['remarks'],
+        'breaks' => json_encode($validated['breaks']),
+    ]);
+
+    return redirect()->route('admin.modification_requests')
+        ->with('success', '勤怠情報を更新しました！');
+}
+
+/**
+     * 修正申請を作成する処理
+     */
+    public function requestModification(AttendanceModificationRequest $request, $attendanceId)
+    {
+        // 勤怠データを取得
+        $attendance = Attendance::findOrFail($attendanceId);
+
+        // 修正申請を作成
+        AttendanceRequest::create([
+            'user_id' => Auth::id(),
+            'attendance_id' => $attendance->id,
+            'date' => $attendance->date,
+            'time_in' => $request->input('time_in'),
+            'time_out' => $request->input('time_out'),
+            'breaks' => json_encode($request->input('breaks')), // 休憩データをJSON形式で保存
+            'remarks' => $request->input('remarks'),
+            'status' => 'pending', // ステータスを「承認待ち」に設定
+        ]);
+
+        return redirect()->route('attendance.details', ['date' => $attendance->date])
+            ->with('success', '修正申請を送信しました！');
+    }
+    public function createAttendance(Request $request)
 {
     $userId = auth()->id();
 
-    // 出勤情報を更新または作成
-    $attendance = Attendance::updateOrCreate(
-        ['user_id' => $userId, 'date' => $date],
-        [
-            'time_in' => $request->input('time_in'),
-            'time_out' => $request->input('time_out'),
-            'remarks' => $request->input('remarks')
-        ]
-    );
-
-    // 休憩情報を更新または作成
-    foreach ($request->input('breaks', []) as $key => $break) {
-        if (!empty($break['break_in']) && !empty($break['break_out'])) {
-            BreakTime::updateOrCreate(
-                ['attendance_id' => $attendance->id, 'id' => $key],
-                ['break_in' => $break['break_in'], 'break_out' => $break['break_out']]
-            );
-        }
-    }
-    return redirect()->route('attendance.details', ['date' => $date])
-        ->with('success', '勤怠情報を更新しました！');
+    $validated = $request->validate([
+        'date' => 'required|date|unique:attendances,date,NULL,id,user_id,' . $userId,
+        'time_in' => 'required|date_format:H:i',
+        'time_out' => 'nullable|date_format:H:i|after:time_in',
+        'remarks' => 'nullable|string|max:255',
+    ]);
 }
 }

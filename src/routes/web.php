@@ -28,7 +28,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/attendance/list', [AttendanceController::class, 'index'])->name('attendance.list');
     // 勤怠詳細
     Route::get('/attendance/details/{date}', [AttendanceController::class, 'details'])->name('attendance.details');
-    Route::put('/attendance/update/{date}', [AttendanceController::class, 'update'])->name('attendance.update');
+    // 修正申請: 修正申請の作成
+    Route::post('/attendance/request_modification/{attendanceId}', [AttendanceController::class, 'requestModification'])->name('attendance.requestModification');
 });
 
 // ログアウト処理
