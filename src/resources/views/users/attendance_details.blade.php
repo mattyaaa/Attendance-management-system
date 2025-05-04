@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/users/attendance_details.css') }}">
+@endsection
+
 @section('content')
 <div class="container">
     <h1 class="mb-4">勤怠詳細</h1>
@@ -36,7 +40,7 @@
                             <input type="text" name="time_in" 
                                    value="{{ old('time_in', $attendance->time_in ? \Carbon\Carbon::parse($attendance->time_in)->format('H:i') : '') }}" 
                                    class="form-control me-2">
-                            〜
+                            <span class="range-separator">〜</span>
                             <!-- 退勤時間 -->
                             <input type="text" name="time_out" 
                                    value="{{ old('time_out', $attendance->time_out ? \Carbon\Carbon::parse($attendance->time_out)->format('H:i') : '') }}" 
@@ -63,7 +67,7 @@
                                 <input type="text" name="breaks[{{ $index }}][break_in]" 
                                        value="{{ old("breaks.$index.break_in", $break->break_in ? \Carbon\Carbon::parse($break->break_in)->format('H:i') : '') }}" 
                                        class="form-control me-2">
-                                〜
+                                <span class="range-separator">〜</span>
                                 <!-- 休憩終了 -->
                                 <input type="text" name="breaks[{{ $index }}][break_out]" 
                                        value="{{ old("breaks.$index.break_out", $break->break_out ? \Carbon\Carbon::parse($break->break_out)->format('H:i') : '') }}" 
@@ -87,7 +91,7 @@
                         <div class="d-flex align-items-center">
                             <input type="text" name="breaks[new][break_in]" 
                                    value="" class="form-control me-2">
-                            〜
+                            <span class="range-separator">〜</span>
                             <input type="text" name="breaks[new][break_out]" 
                                    value="" class="form-control ms-2">
                         </div>
@@ -115,7 +119,7 @@
             <!-- 修正ボタン -->
             @if ($status === 'pending')
             <div class="alert alert-warning">
-                承認待ちのため修正はできません。
+                ※承認待ちのため修正はできません。
             </div>
             @else
             <div class="text-center mt-4">
