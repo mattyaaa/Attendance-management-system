@@ -23,6 +23,12 @@ body {
     border-left: #000000 5px solid;
 }
 
+/* 年と月日の間のスペースを調整 */
+.space {
+    display: inline-block;
+    width: 150px;
+}
+
 /* テーブル全体のスタイル */
 .table {
     width: 100%;
@@ -58,7 +64,7 @@ body {
 
 /* 出勤、退勤、休憩時間の入力フィールドを短くする */
 .form-control {
-    width: 150px;
+    width: 120px;
     text-align: center;
     padding: 8px;
     border: 1px solid #ccc;
@@ -72,7 +78,7 @@ body {
 
 /* 備考欄 */
 textarea.form-control {
-    width: 50%;
+    width: 60%;
     text-align: left;
     height: 100px;
     resize: vertical;
@@ -124,10 +130,6 @@ button.btn-primary:hover {
     margin-bottom: 20px;
     border: 1px solid transparent;
     border-radius: 4px;
-}
-
-.alert-info {
-    color: #31708f;
 }
 
 .alert-warning {

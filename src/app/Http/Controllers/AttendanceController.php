@@ -245,15 +245,4 @@ public function update(Request $request, $date)
         return redirect()->route('attendance.details', ['date' => $attendance->date])
             ->with('success', '修正申請を送信しました！');
     }
-    public function createAttendance(Request $request)
-{
-    $userId = auth()->id();
-
-    $validated = $request->validate([
-        'date' => 'required|date|unique:attendances,date,NULL,id,user_id,' . $userId,
-        'time_in' => 'required|date_format:H:i',
-        'time_out' => 'nullable|date_format:H:i|after:time_in',
-        'remarks' => 'nullable|string|max:255',
-    ]);
-}
 }
