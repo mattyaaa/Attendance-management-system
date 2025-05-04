@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\RequestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/attendance/details/{date}', [AttendanceController::class, 'details'])->name('attendance.details');
     // 修正申請: 修正申請の作成
     Route::post('/attendance/request_modification/{attendanceId}', [AttendanceController::class, 'requestModification'])->name('attendance.requestModification');
+    // 申請一覧
+    Route::get('/stamp_correction_request/list', [RequestController::class, 'index'])->name('request.list');
 });
 
 // ログアウト処理

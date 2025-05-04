@@ -1,0 +1,179 @@
+/* 全体のスタイル */
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #F0EFF2;
+    font-family: Arial, sans-serif;
+    height: 100%;
+}
+
+.request-list-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* タイトル部分 */
+.request-header {
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+
+.request-list-title {
+    font-size: 30px;
+    font-weight: bold;
+    color: #000000;
+    margin: 0;
+    margin-bottom: 30px;
+    padding: 10px;
+    border-left: #000000 5px solid;
+    font-family: Inter;
+    font-weight: 700;
+    line-height: 100%;
+}
+
+/* タブ部分 */
+.tab-container {
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.nav-tabs {
+    display: flex;
+    border-bottom: 1px solid #000000;
+    list-style: none;
+}
+
+.nav-tabs .nav-item {
+    margin-right: 10px;
+    padding: 10px;
+}
+
+.nav-tabs .nav-link {
+    font-size: 16px;
+    padding: 10px 20px;
+    color: #000000;
+    border: 1px solid transparent;
+    border-radius: 5px 5px 0 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    font-family: Inter;
+    line-height: 100%;
+}
+
+.nav-tabs .nav-link.active {
+    color: #000000;
+    font-weight: bold;
+
+}
+
+
+/* データ部分 */
+.data-container {
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+/* テーブルのスタイル */
+.request-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.request-table th {
+    padding: 5px;
+    text-align: center;
+    font-size: 16px;
+    color: #737373;
+    border-bottom: #E1E1E1 3px solid;
+    font-family: Inter;
+    font-weight: 700;
+}
+
+.request-table td {
+    padding: 12px;
+    font-size: 16px;
+    color: #737373;
+    border-bottom: #E1E1E1 2px solid;
+    text-align: center;
+    font-family: Inter;
+    font-weight: 700;
+}
+
+.request-table tr:nth-child(even) {
+    background-color: #F8F9FA;
+}
+
+.request-table tr:hover {
+    background-color: #E9ECEF;
+}
+
+/* 詳細ボタン */
+.btn-primary {
+    font-size: 16px;
+    color: #000000;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    font-family: Inter;
+    font-weight: 700;
+}
+
+/* レスポンシブデザイン */
+
+/* PC (1400-1540px) */
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .request-list-container {
+        max-width: 1200px;
+        padding: 30px;
+    }
+
+    .request-list-title {
+        font-size: 28px;
+    }
+
+    .request-table th,
+    .request-table td {
+        font-size: 18px;
+    }
+
+    .btn-primary {
+        font-size: 18px;
+        padding: 12px 24px;
+    }
+}
+
+/* タブレット (768-850px) */
+@media (min-width: 768px) and (max-width: 850px) {
+    .request-list-container {
+        max-width: 100%;
+        padding: 15px;
+    }
+
+    .request-list-title {
+        font-size: 24px;
+    }
+
+    .nav-tabs .nav-link {
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+
+    .request-table th,
+    .request-table td {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .btn-primary {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+}
