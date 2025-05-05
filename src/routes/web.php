@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\RequestController;
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\CustomAuthenticatedSessionController;
+use App\Http\Controllers\Auth\AdminAuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +37,34 @@ Route::middleware(['auth'])->group(function () {
     // 申請一覧
     Route::get('/stamp_correction_request/list', [RequestController::class, 'index'])->name('request.list');
 });
+
+// 管理者専用ルート
+Route::middleware(['auth', 'can:admin'])->group(function () {
+    // 管理者用 勤怠リスト画面の表示
+    Route::get('/admin/attendance/list', function () {
+        return view('admin.attendance_list');
+    })->name('admin.attendance.list');
+});
+
+// 一般ユーザーのログイン
+Route::get('/login', function () {
+    return view('users.login');
+})->name('login');
+
+// 一般ユーザーのログイン処理 (POST)
+Route::post('/login', [CustomAuthenticatedSessionController::class, 'store'])
+    ->middleware(['guest'])
+    ->name('login.post');
+
+// 管理者のログイン
+Route::get('/admin/login', function () {
+    return view('admin.login');
+})->name('admin.login');
+
+// 管理者ログイン処理 (POST)
+Route::post('/admin/login', [AdminAuthenticatedSessionController::class, 'store'])
+    ->middleware(['guest'])
+    ->name('admin.login.post');
 
 // ログアウト処理
 Route::post('/logout', function () {

@@ -2,16 +2,20 @@
 
 namespace App\Providers;
 
+use App\Http\Controllers\Auth\CustomAuthenticatedSessionController;
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Http\Requests\LoginRequest;
+use App\Http\Requests\AdminLoginRequest;
+use App\Models\User;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -47,16 +51,21 @@ class FortifyServiceProvider extends ServiceProvider
             return view('users.login');
         });
 
-        Fortify::authenticateUsing(function (LoginRequest $request) {
-        $credentials = $request->only('email', 'password');
-
-        if (auth()->attempt($credentials)) {
-            return auth()->user();
+        Fortify::authenticateUsing(function (Request $request) {
+        // 管理者ログインの場合
+        if ($request->is('admin/login')) {
+            return $this->authenticateAdmin($request);
         }
 
-            session()->flash('error', 'メールアドレスまたはパスワードが正しくありません。');
-            return null;
+        // 一般ユーザーログインの場合
+        return $this->authenticateUser($request);
         });
+
+        // ログインコントローラーをカスタムコントローラーに差し替え
+        $this->app->bind(
+            \Laravel\Fortify\Http\Controllers\AuthenticatedSessionController::class,
+            CustomAuthenticatedSessionController::class
+        );
 
         // 一般ユーザーのRate Limiter
         RateLimiter::for('login', function (Request $request) {
@@ -71,5 +80,31 @@ class FortifyServiceProvider extends ServiceProvider
 
             return Limit::perMinute(5)->by($email . $request->ip());
         });
+    }
+
+    //管理者認証
+    protected function authenticateAdmin(Request $request)
+    {
+        $validated = app(AdminLoginRequest::class)->validated(); // AdminLoginRequest を使用
+        $user = User::where('email', $validated['email'])->first();
+
+        if ($user && Hash::check($validated['password'], $user->password) && $user->role_id === 2) {
+        return $user; // 管理者認証成功
+        }
+
+        return null; // 管理者認証失敗
+    }
+
+    //一般ユーザー認証
+    protected function authenticateUser(Request $request)
+    {
+        $validated = app(LoginRequest::class)->validated(); // LoginRequest を使用
+        $user = User::where('email', $validated['email'])->first();
+
+        if ($user && Hash::check($validated['password'], $user->password) && $user->role_id === 1) {
+            return $user; // 一般ユーザー認証成功
+        }
+
+        return null; // 一般ユーザー認証失敗
     }
 }
