@@ -118,7 +118,7 @@
             ※承認待ちのため修正はできません。
         </div>
         @else
-        <div class="text-center mt-4">
+        <div class="text-right mt-4">
             <button type="submit" class="btn btn-primary">修正</button>
         </div>
         @endif

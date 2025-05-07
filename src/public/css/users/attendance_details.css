@@ -107,11 +107,16 @@ button.btn-primary {
     color: #fff;
     border: none;
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 22px;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     margin-top: 50px;
+    font-family: Inter;
+    width: 130px;
+}
+.text-right {
+    text-align: right;
 }
 
 button.btn-primary:hover {
@@ -121,7 +126,7 @@ button.btn-primary:hover {
 /* エラーメッセージのスタイル */
 .text-danger {
     color: #dc3545;
-    font-size: 18px;
+    font-size: 16px;
     font-family: Inter;
     font-weight: 800;
     line-height: 100%;
