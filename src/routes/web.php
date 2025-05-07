@@ -66,8 +66,14 @@ Route::post('/admin/login', [AdminAuthenticatedSessionController::class, 'store'
     ->middleware(['guest'])
     ->name('admin.login.post');
 
-// ログアウト処理
+// 一般ユーザーのログアウト
 Route::post('/logout', function () {
     Auth::logout();
-    return redirect('/login');
+    return redirect('/login'); // 一般ログインページにリダイレクト
 })->name('logout');
+
+// 管理者用のログアウト
+Route::post('/admin/logout', function () {
+    Auth::logout();
+    return redirect('/admin/login'); // 管理者ログインページにリダイレクト
+})->name('admin.logout');

@@ -22,7 +22,7 @@ class AdminAuthenticatedSessionController extends AuthenticatedSessionController
         \Log::info('User authenticated', ['user_id' => $user->id, 'role_id' => $user->role_id]);
     } else {
         \Log::error('Authentication failed');
-        return redirect('/admin/login')->withErrors(['email' => 'Authentication failed.']);
+        return redirect('/admin/login')->withErrors(['email' => 'ログイン情報が登録されていません。']);
     }
 
     // ロールに基づきリダイレクト
