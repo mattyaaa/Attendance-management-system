@@ -196,6 +196,9 @@ class AttendanceController extends Controller
 
     $status = $attendanceRequest->status ?? 'not_requested';
 
+    // 使用するレイアウトを決定
+    $layout = $isAdmin ? 'layouts.admin' : 'layouts.app';
+
     // ビューを返す
     return view('users.attendance_details', [
         'attendance' => $attendance,
@@ -203,6 +206,7 @@ class AttendanceController extends Controller
         'date' => $date,
         'status' => $status, // 修正申請の現在のステータス
         'isAdmin' => $isAdmin, // 管理者判定をビューに渡す
+        'layout' => $layout,
     ]);
 }
 
