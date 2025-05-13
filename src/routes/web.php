@@ -41,9 +41,7 @@ Route::middleware(['auth'])->group(function () {
 // 管理者専用ルート
 Route::middleware(['auth', 'can:admin'])->group(function () {
     // 管理者用 勤怠リスト画面の表示
-    Route::get('/admin/attendance/list', function () {
-        return view('admin.attendance_list');
-    })->name('admin.attendance.list');
+    Route::get('/admin/attendance/list', [AdminAuthenticatedSessionController::class, 'index'])->name('admin.attendance.list');
 });
 
 // 一般ユーザーのログイン

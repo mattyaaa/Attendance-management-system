@@ -14,7 +14,7 @@
             <!-- 名前 -->
             <tr>
                 <th>名前</th>
-                <td>{{ Auth::user()->name }}</td>
+                <td>{{ $attendance->user->name }}</td>
             </tr>
 
             <!-- 日付 -->
@@ -113,14 +113,14 @@
         </table>
 
         <!-- 修正ボタン -->
-        @if ($status === 'pending')
-        <div class="alert alert-warning">
-            ※承認待ちのため修正はできません。
-        </div>
+        @if ($isAdmin || $status !== 'pending')
+            <div class="text-right mt-4">
+                <button type="submit" class="btn btn-primary">修正</button>
+            </div>
         @else
-        <div class="text-right mt-4">
-            <button type="submit" class="btn btn-primary">修正</button>
-        </div>
+            <div class="alert alert-warning">
+                ※承認待ちのため修正はできません。
+            </div>
         @endif
     </form>
 </div>

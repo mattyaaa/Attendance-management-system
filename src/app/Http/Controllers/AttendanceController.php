@@ -163,11 +163,25 @@ class AttendanceController extends Controller
         ]);
     }
 
-    public function details($date)
+    public function details($date, Request $request)
 {
-    $userId = auth()->id();
+    // クエリパラメータから user_id を取得（指定がない場合はログイン中のユーザー）
+    $userId = $request->query('user_id', auth()->id());
 
-    // 出勤情報を取得
+    // ログイン中のユーザー情報を取得
+    $authUser = auth()->user();
+
+    // 権限チェック
+    // role_id が 2 の場合は管理者、それ以外は一般ユーザー
+    $isAdmin = $authUser->role_id === 2;
+
+    // 権限チェックを実施
+    // 管理者以外は自分自身のデータにのみアクセス可能
+    if (!$isAdmin && $authUser->id != $userId) {
+        abort(403, 'この操作は許可されていません。');
+    }
+
+    // 勤怠データを取得
     $attendance = Attendance::where('user_id', $userId)
         ->where('date', $date)
         ->first();
@@ -175,21 +189,20 @@ class AttendanceController extends Controller
     // 休憩情報を取得（存在しない場合は空のコレクション）
     $breakTimes = $attendance ? $attendance->breakTimes : collect();
 
-    // 休憩情報を取得（存在しない場合は空のコレクション）
-    $breakTimes = $attendance ? $attendance->breakTimes : collect();
-
-    // 現在の修正申請のステータスを取得（デフォルトは not_requested）
+    // 修正申請のステータスを取得（存在しない場合は not_requested）
     $attendanceRequest = $attendance
         ? AttendanceRequest::where('attendance_id', $attendance->id)->first()
         : null;
 
     $status = $attendanceRequest->status ?? 'not_requested';
 
+    // ビューを返す
     return view('users.attendance_details', [
         'attendance' => $attendance,
         'breakTimes' => $breakTimes,
         'date' => $date,
         'status' => $status, // 修正申請の現在のステータス
+        'isAdmin' => $isAdmin, // 管理者判定をビューに渡す
     ]);
 }
 
