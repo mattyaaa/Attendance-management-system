@@ -1,48 +1,33 @@
-/* ログイン画面のスタイル */
+/* 全体のスタイル */
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #F0EFF2;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .login__content {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     width: 680px;
-    height: 656px;
-    position: absolute;
-    top: 200px;
-    left: 416px;
+    height: auto;
+    /* 高さを自動調整 */
     box-sizing: border-box;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .login-form__heading h2 {
     margin: 0 0 50px;
     font-size: 36px;
-}
-
-.form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.form__group {
-    margin-bottom: 15px;
-    width: 100%;
-}
-
-.form__group-title {
-    margin-bottom: 5px;
-    text-align: left;
-}
-
-.form__label--item {
-    font-weight: bold;
-    display: block;
-    font-size: 22px;
-}
-
-.form__group-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 .form__input--text input[type="email"],
@@ -51,26 +36,10 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
-    width: 600px;
+    width: 100%;
+    /* 親要素に依存 */
     box-sizing: border-box;
-    border-width: 1px;
-    border-radius: 4px;
-    top: 132.55px;
     margin-bottom: 30px;
-}
-
-.form__error {
-    color: red;
-    font-size: 20px;
-    margin-top: 5px;
-    text-align: left;
-    width: 100%;
-}
-
-.form__button {
-    display: flex;
-    justify-content: center;
-    width: 100%;
 }
 
 .form__button-submit {
@@ -78,46 +47,41 @@
     color: #fff;
     padding: 10px 20px;
     border: none;
-    width: 600px;
+    width: 100%;
+    /* 親要素に依存 */
     border-radius: 4px;
     font-size: 22px;
     cursor: pointer;
 }
+
 .form__button-submit:hover {
     background-color: #555;
 }
-
 
 /* PC (1400-1540px) */
 @media (min-width: 1400px) and (max-width: 1540px) {
     .login__content {
         width: 700px;
         height: auto;
-        top: 150px;
-        left: calc(50% - 350px);
     }
 
     .form__input--text input[type="email"],
     .form__input--text input[type="password"] {
-        width: 650px;
+        width: 90%;
+        /* 相対幅に */
     }
 
     .form__button-submit {
-        width: 650px;
+        width: 90%;
+        /* 相対幅に */
     }
 }
 
 /* タブレット (768-850px) */
 @media (min-width: 768px) and (max-width: 850px) {
     .login__content {
-        width: 90%;
+        width: 95%;
         height: auto;
-        top: 100px;
-        left: 5%;
-    }
-
-    .form__label--item {
-        font-size: 18px;
     }
 
     .form__input--text input[type="email"],

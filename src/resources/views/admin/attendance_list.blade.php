@@ -19,7 +19,8 @@
         </form>
 
         <!-- 現在の日付 -->
-        <div class="current-date">
+         <div class="current-date d-flex align-items-center">
+        <img src="/images/calendar.png" alt="カレンダー" class="date-icon">
             {{ \Carbon\Carbon::parse($currentDate)->format('Y/m/d') }}
         </div>
 
