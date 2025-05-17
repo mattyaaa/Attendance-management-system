@@ -1,15 +1,17 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/users/attendance_details.css') }}">
+<link rel="stylesheet" href="{{ asset('css/admin/attendance_details.css') }}">
 @endsection
-
 @section('content')
 <div class="container">
     <h1 class="mb-4">勤怠詳細</h1>
 
-    <form method="POST" action="{{ route('attendance.requestModification', ['attendanceId' => $attendance->id]) }}">
+    <form method="POST" action="{{ route('admin.attendance.update', ['date' => $attendance->date]) }}">
         @csrf
+        @method('PUT')
+        <input type="hidden" name="user_id" value="{{ $attendance->user_id }}">
+
         <table class="table table-bordered">
             <!-- 名前 -->
             <tr>
@@ -112,16 +114,10 @@
             </tr>
         </table>
 
-        <!-- 修正ボタン -->
-        @if ($isAdmin || $status !== 'pending')
-            <div class="text-right mt-4">
-                <button type="submit" class="btn btn-primary">修正</button>
-            </div>
-        @else
-            <div class="alert alert-warning">
-                ※承認待ちのため修正はできません。
-            </div>
-        @endif
+        <!-- 修正保存ボタン -->
+        <div class="text-right mt-4">
+            <button type="submit" class="btn btn-primary">修正</button>
+        </div>
     </form>
 </div>
 @endsection

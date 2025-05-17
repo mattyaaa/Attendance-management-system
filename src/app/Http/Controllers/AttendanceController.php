@@ -199,14 +199,20 @@ class AttendanceController extends Controller
     // 使用するレイアウトを決定
     $layout = $isAdmin ? 'layouts.admin' : 'layouts.app';
 
-    // ビューを返す
+    if ($isAdmin) {
+        return view('admin.attendance_details', [
+            'attendance' => $attendance,
+            'breakTimes' => $breakTimes,
+            'date' => $date,
+        ]);
+    }
+
     return view('users.attendance_details', [
         'attendance' => $attendance,
         'breakTimes' => $breakTimes,
         'date' => $date,
-        'status' => $status, // 修正申請の現在のステータス
-        'isAdmin' => $isAdmin, // 管理者判定をビューに渡す
-        'layout' => $layout,
+        'status' => $status,
+        'isAdmin' => $isAdmin,
     ]);
 }
 

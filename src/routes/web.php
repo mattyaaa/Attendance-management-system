@@ -42,6 +42,9 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'can:admin'])->group(function () {
     // 管理者用 勤怠リスト画面の表示
     Route::get('/admin/attendance/list', [AdminAuthenticatedSessionController::class, 'index'])->name('admin.attendance.list');
+    // 管理者用 勤怠詳細画面の表示
+    Route::get('/admin/attendance/details/{date}', [AttendanceController::class, 'details'])->name('admin.attendance.details');
+    Route::put('/admin/attendance/update/{date}', [AttendanceController::class, 'update'])->name('admin.attendance.update');
 });
 
 // 一般ユーザーのログイン
