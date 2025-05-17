@@ -216,7 +216,7 @@ class AttendanceController extends Controller
     ]);
 }
 
-public function update(Request $request, $date)
+public function update(AttendanceModificationRequest $request, $date)
 {
     // 管理者のみがこのメソッドを利用可能
     $this->authorize('update', Attendance::class);
