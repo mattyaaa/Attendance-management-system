@@ -175,7 +175,6 @@ class AttendanceController extends Controller
     // role_id が 2 の場合は管理者、それ以外は一般ユーザー
     $isAdmin = $authUser->role_id === 2;
 
-    // 権限チェックを実施
     // 管理者以外は自分自身のデータにのみアクセス可能
     if (!$isAdmin && $authUser->id != $userId) {
         abort(403, 'この操作は許可されていません。');
@@ -186,6 +185,11 @@ class AttendanceController extends Controller
         ->where('date', $date)
         ->first();
 
+    // 勤怠データが見つからない場合
+    if (!$attendance) {
+        return redirect()->route('admin.attendance.list') // 適切なリスト画面にリダイレクト
+            ->with('error', '指定された勤怠データが見つかりませんでした。');
+    }
     // 休憩情報を取得（存在しない場合は空のコレクション）
     $breakTimes = $attendance ? $attendance->breakTimes : collect();
 
@@ -218,30 +222,61 @@ class AttendanceController extends Controller
 
 public function update(AttendanceModificationRequest $request, $date)
 {
-    // 管理者のみがこのメソッドを利用可能
-    $this->authorize('update', Attendance::class);
-
-    $validated = $request->validate([
-        'time_in' => 'nullable|date_format:H:i',
-        'time_out' => 'nullable|date_format:H:i',
-        'breaks' => 'nullable|array',
-        'remarks' => 'nullable|string|max:255',
-    ]);
-
     // 対象の勤怠データを取得
     $attendance = Attendance::where('date', $date)
         ->where('user_id', $request->input('user_id'))
         ->firstOrFail();
 
-    // 勤怠データを更新
-    $attendance->update([
-        'time_in' => $validated['time_in'],
-        'time_out' => $validated['time_out'],
-        'remarks' => $validated['remarks'],
-        'breaks' => json_encode($validated['breaks']),
-    ]);
+    // 管理者のみがこのメソッドを利用可能
+    $this->authorize('update', $attendance);
 
-    return redirect()->route('admin.modification_requests')
+    // バリデーション済みデータを取得
+    $validated = $request->validated();
+
+    // 勤怠データを更新
+    $updateData = [];
+    if (!empty($validated['time_in'])) {
+        $updateData['time_in'] = $validated['time_in'];
+    }
+    if (!empty($validated['time_out'])) {
+        $updateData['time_out'] = $validated['time_out'];
+    }
+    if (!empty($validated['remarks'])) {
+        $updateData['remarks'] = $validated['remarks'];
+    }
+
+    $attendance->update($updateData);
+
+   // 休憩データを更新（空白の部分を無視して処理）
+if (!empty($validated['breaks'])) {
+    // 古いデータを削除
+    BreakTime::where('attendance_id', $attendance->id)->delete();
+
+    foreach ($validated['breaks'] as $break) {
+        // 空白データをスキップ（break_in または break_out が空なら処理しない）
+        if (empty($break['break_in']) || empty($break['break_out'])) {
+            continue; // スキップして次のデータに進む
+        }
+
+        // 新しいデータを挿入
+        BreakTime::create([
+            'attendance_id' => $attendance->id,
+            'break_in' => $break['break_in'],
+            'break_out' => $break['break_out'],
+        ]);
+    }
+}
+
+     // 修正申請データが存在する場合、承認済みに変更
+        $attendanceRequest = AttendanceRequest::where('attendance_id', $attendance->id)->first();
+        if ($attendanceRequest) {
+            $attendanceRequest->update([
+                'status' => 'approved',
+                'remarks' => '管理者が修正を承認し、直接修正を行いました。',
+            ]);
+        }
+
+    return redirect()->route('admin.attendance.details', ['date' => $date])
         ->with('success', '勤怠情報を更新しました！');
 }
 

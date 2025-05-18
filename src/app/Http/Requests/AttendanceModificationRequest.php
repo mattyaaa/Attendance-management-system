@@ -26,6 +26,7 @@ class AttendanceModificationRequest extends FormRequest
         return [
             'time_in' => ['required', 'date_format:H:i'],
             'time_out' => ['required', 'date_format:H:i', 'after:time_in'],
+            'breaks' => ['nullable', 'array'],
             'breaks.*.break_in' => ['nullable', 'date_format:H:i', 'before_or_equal:time_out', 'after_or_equal:time_in'],
             'breaks.*.break_out' => ['nullable', 'date_format:H:i', 'before_or_equal:time_out', 'after_or_equal:breaks.*.break_in'],
             'remarks' => ['required', 'string', 'max:255'],
