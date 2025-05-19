@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AttendanceModificationRequest;
 use Illuminate\Http\Request;
+use App\Models\User;
 use App\Models\Attendance;
 use App\Models\BreakTime;
 use App\Models\AttendanceRequest;
@@ -303,4 +304,30 @@ if (!empty($validated['breaks'])) {
         return redirect()->route('attendance.details', ['date' => $attendance->date])
             ->with('success', '修正申請を送信しました！');
     }
+    /**
+     * スタッフ別勤怠データ一覧を表示
+     *
+     * @param int $id スタッフのID
+     * @return \Illuminate\View\View
+     */
+    public function showByStaff($id, Request $request)
+{
+    // スタッフ情報を取得
+    $staff = User::findOrFail($id);
+
+    // 現在の月を取得（クエリパラメータ 'month' が指定されていればその月を使用）
+    $currentMonth = $request->query('month', now()->format('Y-m'));
+
+    // スタッフの指定された月の勤怠データを取得
+    $attendances = Attendance::where('user_id', $id)
+                             ->whereBetween('date', [
+                                 \Carbon\Carbon::parse($currentMonth)->startOfMonth(),
+                                 \Carbon\Carbon::parse($currentMonth)->endOfMonth(),
+                             ])
+                             ->orderBy('date', 'asc')
+                             ->get();
+
+    // ビューにデータを渡す
+    return view('admin.staff_attendance_list', compact('staff', 'attendances', 'currentMonth'));
+}
 }
