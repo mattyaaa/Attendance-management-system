@@ -6,6 +6,7 @@ body {
     background-color: #F0EFF2;
     height: 100%;
 }
+
 .attendance-list-container {
     max-width: 900px;
     margin: 0 auto;
@@ -17,7 +18,7 @@ body {
     font-size: 30px;
     font-weight: bold;
     color: #000000;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
     padding: 10px;
     border-left: #000000 5px solid;
 }
@@ -36,6 +37,7 @@ body {
 .month-navigation .previous-month {
     margin-right: auto;
 }
+
 /* 前月ボタンの矢印アイコンのスタイル */
 .previous-month .arrow-icon {
     max-width: 100%;
@@ -91,9 +93,10 @@ body {
 }
 
 /* ボタンのスタイル */
-.btn{
+.btn {
     color: #737373;
     padding: 10px 20px;
+    margin-top: 10px;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -162,8 +165,32 @@ body {
     text-decoration: none;
     font-family: Inter;
 }
+
 .btn-primary:hover {
     color: #555;
+}
+/* ボタンのスタイル */
+.csv-export {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 50px;
+}
+
+.csv-export-button {
+    color: #FFFFFF;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none;
+    outline: none;
+    background-color: #000000;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+}
+/* ボタンのホバー時のスタイル */
+.csv-export-button:hover {
+    background-color: #333333;
 }
 
 /* PC (1400-1540px) */
@@ -233,4 +260,3 @@ body {
         margin-right: 8px;
     }
 }
-

@@ -330,4 +330,23 @@ if (!empty($validated['breaks'])) {
     // ビューにデータを渡す
     return view('admin.staff_attendance_list', compact('staff', 'attendances', 'currentMonth'));
 }
+public function staffAttendance($id, Request $request)
+{
+    $currentMonth = $request->query('month', now()->format('Y-m'));
+    $staff = User::findOrFail($id);
+
+    // 指定されたスタッフの勤怠データを取得
+    $attendances = Attendance::where('user_id', $id)
+        ->whereBetween('date', [
+            \Carbon\Carbon::parse($currentMonth)->startOfMonth(),
+            \Carbon\Carbon::parse($currentMonth)->endOfMonth(),
+        ])
+        ->orderBy('date', 'asc')
+        ->get();
+
+    // 現在の月の日付を取得
+    $currentDate = now(); // またはリクエストから取得
+
+    return view('admin.staff_attendance_list', compact('staff', 'attendances', 'currentMonth', 'currentDate'));
+}
 }

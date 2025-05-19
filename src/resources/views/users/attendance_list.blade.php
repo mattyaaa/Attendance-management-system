@@ -13,19 +13,21 @@
     <!-- 前月ボタン -->
     <form method="GET" action="{{ route('attendance.list') }}" class="previous-month">
     @csrf
-    <button type="submit" name="month" value="{{ \Carbon\Carbon::parse($currentMonth)->subMonth()->format('Y-m') }}" class="btn btn-secondary">
+    <button type="submit" name="month" value="{{ \Carbon\Carbon::parse($currentMonth)->subMonth()->format('Y-m') }}" class="btn btn-secondary navigation-button">
         <img src="/images/arrow.png" alt="左矢印" class="arrow-icon"> 前月
     </button>
 </form>
 
     <!-- 現在の月 -->
-     <img src="/images/calendar.png" alt="カレンダー" class="month-icon">
+    <div class="current-month">
+    <img src="/images/calendar.png" alt="カレンダー" class="month-icon">
     {{ \Carbon\Carbon::parse($currentMonth)->format('Y/m') }}
+    </div>
 
     <!-- 翌月ボタン -->
     <form method="GET" action="{{ route('attendance.list') }}" class="next-month">
     @csrf
-    <button type="submit" name="month" value="{{ \Carbon\Carbon::parse($currentMonth)->addMonth()->format('Y-m') }}" class="btn btn-secondary">
+    <button type="submit" name="month" value="{{ \Carbon\Carbon::parse($currentMonth)->addMonth()->format('Y-m') }}" class="btn btn-secondary navigation-button">
         翌月 <img src="/images/arrow.png" alt="右矢印" class="arrow-icon flipped">
     </button>
 </form>

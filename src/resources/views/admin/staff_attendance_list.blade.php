@@ -14,19 +14,21 @@
         <!-- 前月ボタン -->
         <form method="GET" action="{{ route('admin.attendance.staff', ['id' => $staff->id]) }}" class="previous-month">
             @csrf
-            <button type="submit" name="month" value="{{ \Carbon\Carbon::parse($currentMonth)->subMonth()->format('Y-m') }}" class="btn btn-secondary">
+            <button type="submit" name="month" value="{{ \Carbon\Carbon::parse($currentMonth)->subMonth()->format('Y-m') }}" class="btn btn-secondary navigation-button">
                 <img src="/images/arrow.png" alt="左矢印" class="arrow-icon"> 前月
             </button>
         </form>
 
         <!-- 現在の月 -->
+        <div class="current-month">
         <img src="/images/calendar.png" alt="カレンダー" class="month-icon">
         {{ \Carbon\Carbon::parse($currentMonth)->format('Y/m') }}
+        </div>
 
         <!-- 翌月ボタン -->
         <form method="GET" action="{{ route('admin.attendance.staff', ['id' => $staff->id]) }}" class="next-month">
             @csrf
-            <button type="submit" name="month" value="{{ \Carbon\Carbon::parse($currentMonth)->addMonth()->format('Y-m') }}" class="btn btn-secondary">
+            <button type="submit" name="month" value="{{ \Carbon\Carbon::parse($currentMonth)->addMonth()->format('Y-m') }}" class="btn btn-secondary navigation-button">
                 翌月 <img src="/images/arrow.png" alt="右矢印" class="arrow-icon flipped">
             </button>
         </form>
@@ -103,7 +105,7 @@
                         <!-- 詳細 -->
                         <td class="attendance-details">
                             @if ($attendance)
-                                <a href="{{ route('attendance.details', ['date' => $date->toDateString()]) }}" class="btn btn-primary">詳細</a>
+                                <a href="{{ route('admin.attendance.details', ['date' => $date->toDateString()]) }}?user_id={{ $staff->id }}" class="btn btn-primary">詳細</a>
                             @endif
                         </td>
                     </tr>
@@ -116,8 +118,8 @@
     <div class="csv-export mt-3">
         <form method="POST" action="">
             @csrf
-            <button type="submit" class="btn btn-success">CSV出力</button>
-        </form>
+            <button type="submit" class="btn btn-success csv-export-button">CSV出力</button>
+</form>
     </div>
 </div>
 @endsection
