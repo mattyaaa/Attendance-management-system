@@ -49,6 +49,7 @@ body {
     font-weight: 700;
     font-size: 16px;
     line-height: 15px;
+    letter-spacing: 2px;
 }
 
 .table td {
@@ -60,6 +61,7 @@ body {
     font-weight: 700;
     font-size: 16px;
     line-height: 15px;
+    letter-spacing: 2px;
 }
 
 /* 出勤、退勤、休憩時間の入力フィールドを短くする */
@@ -74,6 +76,7 @@ body {
     font-size: 14px;
     line-height: 15px;
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    letter-spacing: 2px;
 }
 
 /* 備考欄 */

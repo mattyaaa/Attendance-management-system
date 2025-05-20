@@ -114,6 +114,7 @@ body {
     border-bottom: 2px solid #E1E1E1;
     font-family: Inter;
     font-weight: 700;
+    letter-spacing: 2px;
 }
 
 .attendance-table-body td {
@@ -124,6 +125,7 @@ body {
     text-align: center;
     font-family: Inter;
     font-weight: 700;
+    letter-spacing: 2px;
 }
 
 .attendance-table tr:nth-child(even) {

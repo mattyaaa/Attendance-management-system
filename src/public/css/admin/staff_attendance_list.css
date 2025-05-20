@@ -134,6 +134,7 @@ body {
     color: #737373;
     border-bottom: #E1E1E1 3px solid;
     font-family: Inter;
+    letter-spacing: 2px;
 }
 
 .attendance-table-body td {
@@ -143,6 +144,7 @@ body {
     border-bottom: 1px solid #ddd;
     text-align: center;
     font-family: Inter;
+    letter-spacing: 2px;
 }
 
 .attendance-table tr:nth-child(even) {
