@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\AdminStaffController;
+use App\Http\Controllers\AdminRequestController;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\CustomAuthenticatedSessionController;
 use App\Http\Controllers\Auth\AdminAuthenticatedSessionController;
@@ -50,6 +51,8 @@ Route::middleware(['auth', 'can:admin'])->group(function () {
     Route::get('/admin/staff/list', [AdminStaffController::class, 'index'])->name('admin.staff.list');
     // スタッフ別勤怠一覧画面
     Route::get('/admin/attendance/staff/{id}', [AttendanceController::class, 'showByStaff'])->name('admin.attendance.staff');
+    // 修正申請一覧 (管理者用)
+    Route::get('/stamp_correction_request/list', [AdminRequestController::class, 'index'])->name('admin.request.list');
 });
 
 // 一般ユーザーのログイン
