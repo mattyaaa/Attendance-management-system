@@ -35,12 +35,12 @@
                 <table class="request-table">
                     <thead>
                         <tr>
-                            <th>状態</th>
-                            <th>名前</th>
-                            <th>対象日時</th>
-                            <th>申請理由</th>
-                            <th>申請日時</th>
-                            <th>詳細</th>
+                            <th style="width: 10%;">状態</th>
+                            <th style="width: 15%;">名前</th>
+                            <th style="width: 20%;">対象日時</th>
+                            <th style="width: 20%;">申請理由</th>
+                            <th style="width: 20%;">申請日時</th>
+                            <th style="width: 20%;">詳細</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -67,12 +67,12 @@
                 <table class="request-table">
                     <thead>
                         <tr>
-                            <th>状態</th>
-                            <th>名前</th>
-                            <th>対象日時</th>
-                            <th>申請理由</th>
-                            <th>申請日時</th>
-                            <th>詳細</th>
+                            <th style="width: 10%;">状態</th>
+                            <th style="width: 15%;">名前</th>
+                            <th style="width: 20%;">対象日時</th>
+                            <th style="width: 20%;">申請理由</th>
+                            <th style="width: 20%;">申請日時</th>
+                            <th style="width: 20%;">詳細</th>
                         </tr>
                     </thead>
                     <tbody>
