@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\AdminStaffController;
-use App\Http\Controllers\AdminRequestController;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\CustomAuthenticatedSessionController;
 use App\Http\Controllers\Auth\AdminAuthenticatedSessionController;
@@ -20,7 +19,7 @@ use App\Http\Controllers\Auth\AdminAuthenticatedSessionController;
 |
 */
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'can:user'])->group(function () {
     // 勤怠管理: 勤怠登録画面の表示
     Route::get('/attendance', [AttendanceController::class, 'showRegisterForm'])->name('attendance.form');
 
@@ -36,8 +35,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/attendance/details/{date}', [AttendanceController::class, 'details'])->name('attendance.details');
     // 修正申請: 修正申請の作成
     Route::post('/attendance/request_modification/{attendanceId}', [AttendanceController::class, 'requestModification'])->name('attendance.requestModification');
-    // 申請一覧
-    Route::get('/stamp_correction_request/list', [RequestController::class, 'index'])->name('request.list');
 });
 
 // 管理者専用ルート
@@ -51,10 +48,13 @@ Route::middleware(['auth', 'can:admin'])->group(function () {
     Route::get('/admin/staff/list', [AdminStaffController::class, 'index'])->name('admin.staff.list');
     // スタッフ別勤怠一覧画面
     Route::get('/admin/attendance/staff/{id}', [AttendanceController::class, 'showByStaff'])->name('admin.attendance.staff');
-    // 修正申請一覧 (管理者用)
-    Route::get('/stamp_correction_request/list', [AdminRequestController::class, 'index'])->name('admin.request.list');
 });
 
+Route::middleware(['auth'])->group(function () {
+    // 申請一覧（管理者と一般ユーザーで分岐）
+    Route::get('/stamp_correction_request/list', [RequestController::class, 'index'])->name('request.list');
+});
+// 
 // 一般ユーザーのログイン
 Route::get('/login', function () {
     return view('users.login');

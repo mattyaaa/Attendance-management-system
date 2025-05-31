@@ -16,11 +16,11 @@
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a class="nav-link {{ $currentTab === 'pending' ? 'active' : '' }}" 
-                   href="{{ route('admin.request.list', ['tab' => 'pending']) }}">承認待ち</a>
+                   href="{{ route('request.list', ['tab' => 'pending']) }}">承認待ち</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ $currentTab === 'approved' ? 'active' : '' }}" 
-                   href="{{ route('admin.request.list', ['tab' => 'approved']) }}">承認済み</a>
+                   href="{{ route('request.list', ['tab' => 'approved']) }}">承認済み</a>
             </li>
         </ul>
     </div>
