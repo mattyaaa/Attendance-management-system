@@ -97,7 +97,7 @@
 
                             <!-- 詳細 -->
                             <td class="attendance-details">
-                                <a href="{{ route('attendance.details', ['date' => $currentDate]) }}?user_id={{ $user->id }}" class="btn btn-primary">詳細</a>
+                                <a href="{{ route('admin.attendance.details', ['date' => $currentDate]) }}?user_id={{ $user->id }}" class="btn btn-primary">詳細</a>
                             </td>
                         </tr>
                     @endif

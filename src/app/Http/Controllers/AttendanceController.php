@@ -290,16 +290,27 @@ if (!empty($validated['breaks'])) {
         $attendance = Attendance::findOrFail($attendanceId);
 
         // 修正申請を作成
-        AttendanceRequest::create([
+        $attendanceRequest = AttendanceRequest::create([
             'user_id' => Auth::id(),
             'attendance_id' => $attendance->id,
             'date' => $attendance->date,
             'time_in' => $request->input('time_in'),
             'time_out' => $request->input('time_out'),
-            'breaks' => json_encode($request->input('breaks')), // 休憩データをJSON形式で保存
             'remarks' => $request->input('remarks'),
             'status' => 'pending', // ステータスを「承認待ち」に設定
         ]);
+        // 休憩時間の処理
+        $breaks = $request->input('breaks', []);
+        foreach ($breaks as $break) {
+            if (!empty($break['break_in']) && !empty($break['break_out'])) {
+                BreakTime::create([
+                    'attendance_request_id' => $attendanceRequest->id, 
+                    'break_in' => $break['break_in'],
+                    'break_out' => $break['break_out'],
+                ]);
+            }
+        }
+
 
         return redirect()->route('attendance.details', ['date' => $attendance->date])
             ->with('success', '修正申請を送信しました！');

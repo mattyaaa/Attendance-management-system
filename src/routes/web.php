@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\AdminStaffController;
+use App\Http\Controllers\AdminRequestController;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\CustomAuthenticatedSessionController;
 use App\Http\Controllers\Auth\AdminAuthenticatedSessionController;
@@ -48,13 +49,17 @@ Route::middleware(['auth', 'can:admin'])->group(function () {
     Route::get('/admin/staff/list', [AdminStaffController::class, 'index'])->name('admin.staff.list');
     // スタッフ別勤怠一覧画面
     Route::get('/admin/attendance/staff/{id}', [AttendanceController::class, 'showByStaff'])->name('admin.attendance.staff');
+    // 修正申請承認画面（管理者用）
+    Route::get('/stamp_correction_request/approve/{attendance_correct_request}', [AdminRequestController::class, 'approve'])->name('admin.request.approve');
+    // 承認・却下アクション（管理者用）
+    Route::patch('/stamp_correction_request/approve/{attendance_correct_request}', [AdminRequestController::class, 'approveAction'])->name('admin.request.approve_action');
 });
 
 Route::middleware(['auth'])->group(function () {
     // 申請一覧（管理者と一般ユーザーで分岐）
     Route::get('/stamp_correction_request/list', [RequestController::class, 'index'])->name('request.list');
 });
-// 
+
 // 一般ユーザーのログイン
 Route::get('/login', function () {
     return view('users.login');

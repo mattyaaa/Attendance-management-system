@@ -52,7 +52,7 @@
                             <td>{{ $request->remarks }}</td>
                             <td>{{ \Carbon\Carbon::parse($request->created_at)->format('Y/m/d') }}</td>
                             <td>
-                                <a href="{{ route('admin.attendance.details', ['date' => $request->date, 'user_id' => $request->user_id]) }}" class="btn btn-primary">詳細</a>
+                                <a href="{{ route('admin.request.approve', ['attendance_correct_request' => $request->id]) }}" class="btn btn-primary">詳細</a>
                             </td>
                         </tr>
                         @endforeach
@@ -84,7 +84,7 @@
                             <td>{{ $request->remarks }}</td>
                             <td>{{ \Carbon\Carbon::parse($request->created_at)->format('Y/m/d') }}</td>
                             <td>
-                                <a href="{{ route('admin.attendance.details', ['date' => $request->date, 'user_id' => $request->user_id]) }}" class="btn btn-primary">詳細</a>
+                                <a href="{{ route('admin.request.approve', ['attendance_correct_request' => $request->id]) }}" class="btn btn-primary">詳細</a>
                             </td>
                         </tr>
                         @endforeach
