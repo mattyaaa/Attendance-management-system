@@ -19,20 +19,58 @@ class AdminRequestController extends Controller
         return view('admin.request_approval', compact('request'));
     }
 
-    // 承認・却下アクション
     public function approveAction(Request $request, $attendance_correct_request)
-    {
-        $attendanceRequest = AttendanceRequest::findOrFail($attendance_correct_request);
+{
+    DB::beginTransaction();
+    try {
+        $attendanceRequest = AttendanceRequest::with('breaks')->findOrFail($attendance_correct_request);
 
         if ($request->input('action') === 'approve') {
             $attendanceRequest->status = 'approved';
+            $attendanceRequest->save();
+
+            // 勤怠データも申請内容で更新
+            $attendance = Attendance::find($attendanceRequest->attendance_id);
+            if ($attendance) {
+                $attendance->time_in = $attendanceRequest->time_in;
+                $attendance->time_out = $attendanceRequest->time_out;
+                $attendance->save();
+
+                // 休憩データも申請内容で反映
+                BreakTime::where('attendance_id', $attendance->id)->delete();
+                if ($attendanceRequest->breaks && $attendanceRequest->breaks->count()) {
+                    foreach ($attendanceRequest->breaks as $break) {
+                        BreakTime::create([
+                            'attendance_id' => $attendance->id,
+                            'break_in' => $break->break_in,
+                            'break_out' => $break->break_out,
+                        ]);
+                    }
+                }
+            }
         } elseif ($request->input('action') === 'reject') {
             $attendanceRequest->status = 'rejected';
+            $attendanceRequest->save();
         }
 
-        $attendanceRequest->save();
+        DB::commit();
 
-        return redirect()->route('admin.request.list', ['tab' => 'pending'])
-                         ->with('success', '申請を更新しました。');
+        if ($request->wantsJson()) {
+            return response()->json(['status' => $attendanceRequest->status]);
+        }
+
+        return redirect()->route('admin.request.approve', [
+            'attendance_correct_request' => $attendance_correct_request
+        ])->with('success', '申請を更新しました。');
+    } catch (\Exception $e) {
+        DB::rollBack();
+        if ($request->wantsJson()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+        throw $e;
     }
+}
 }
