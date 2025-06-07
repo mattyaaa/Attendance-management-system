@@ -87,6 +87,14 @@ textarea.form-control {
     resize: vertical;
     /* ユーザーが高さを調整できるように */
 }
+/* 入力欄・備考欄の枠線を消す（readonlyの時だけ） */
+.form-control[readonly],
+textarea.form-control[readonly] {
+    border: none !important;
+    box-shadow: none;
+    padding-left: 0;
+    padding-right: 0;
+}
 
 /* フォーム内のラベルと入力フィールドの間隔調整 */
 .d-flex {
