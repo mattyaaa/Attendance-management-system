@@ -135,6 +135,22 @@ textarea.form-control[readonly] {
     text-align: right;
 }
 
+/* 承認済みラベル用 */
+.approved-label {
+    background-color: #696969 !important;
+    color: #fff !important;
+    border: none;
+    font-size: 22px;
+    font-family: Inter, sans-serif;
+    border-radius: 4px;
+    padding: 12px 36px;
+    width: 130px;
+    text-align: center;
+    display: inline-block;
+    margin-top: 50px;
+    margin-bottom: 0;
+    box-shadow: none;
+}
 
 
 

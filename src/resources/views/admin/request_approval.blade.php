@@ -59,8 +59,8 @@
             <button type="submit" name="action" value="approve" class="btn btn-success">承認</button>
         </div>
         @else
-        <div class="alert alert-info mt-4">
-            {{ $request->status === 'approved' ? '承認済み' : '却下済み' }}
+        <div class="alert alert-info mt-4 approved-label">
+            承認済み
         </div>
         @endif
     </form>
