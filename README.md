@@ -72,10 +72,12 @@ php artisan test
 - パスワード：admin1234
 
 ## 一般ユーザーのログイン情報
+### ユーザー1
 - ユーザー名:田中太郎
 - メールアドレス:tanaka@example.com
 - パスワード：user1234
 
+### ユーザー2
 - ユーザー名:佐藤花子
 - メールアドレス:sato@example.com
 - パスワード：user5678
