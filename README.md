@@ -60,21 +60,30 @@ php artisan migrate
 php artisan db:seed
 ```
 
+8. テストを実行します。
+``` bash
+php artisan test
+```
+
 
 ## 管理ユーザーのログイン情報
-- ユーザー名:
-- メールアドレス:
-- パスワード：
+- ユーザー名:Admin User
+- メールアドレス:admin@example.com
+- パスワード：admin1234
 
 ## 一般ユーザーのログイン情報
-- ユーザー名:
-- メールアドレス:
-- パスワード：
+- ユーザー名:田中太郎
+- メールアドレス:tanaka@example.com
+- パスワード：user1234
+
+- ユーザー名:佐藤花子
+- メールアドレス:sato@example.com
+- パスワード：user5678
 
 ## 使用技術(実行環境)
-- PHP:
-- Laravel:
-- MySQL:
+- PHP:7.4.9
+- Laravel:8.83.29
+- MySQL:10.3.39
 
 ## ER図
 以下にER図を示します。
@@ -82,5 +91,6 @@ php artisan db:seed
 
 
 ## URL
-- 会員登録画面：http://localhost/register
+- ユーザーログイン画面：http://localhost/login
+- 管理者ログイン画面：http://localhost/admin/login
 - phpMyAdmin:：http://localhost:8080/
