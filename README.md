@@ -60,10 +60,50 @@ php artisan migrate
 php artisan db:seed
 ```
 
-8. テストを実行します。
-``` bash
+### テスト用データベースの作成
+
+```bash
+# MySQLコンテナに入る
+docker-compose exec mysql bash
+
+# MySQLにrootユーザーでログイン（パスワードは root）
+mysql -u root -p
+
+# テスト用DB作成
+create database test_database;
+```
+
+### テスト用環境ファイルの準備
+
+```bash
+# アプリコンテナに入る
+docker-compose exec php bash
+
+# .env.testing ファイルを作成
+cp .env .env.testing
+
+# APP_KEYをテスト用に生成
+php artisan key:generate --env=testing
+```
+- `.env.testing` の `DB_DATABASE` を `test_database` に設定してください。
+- テストで必要な Stripe のAPIキー等、他の環境変数も `.env.testing` に必ず設定してください。
+
+### テスト用DBへのマイグレーション
+
+```bash
+php artisan migrate:fresh --env=testing
+```
+
+### テストの実行
+
+```bash
 php artisan test
 ```
+
+---
+**注意:**
+- マイグレーションやテストは必ず `--env=testing` オプションでテスト用データベースに対して行ってください。
+- `.env.testing` に本番用の情報が入らないようご注意ください。
 
 
 ## 管理ユーザーのログイン情報
