@@ -6,6 +6,7 @@
 /vendor
 /src/.env
 /src/.env.backup
+/src/.env.testing
 /src/.phpunit.result.cache
 /src/docker-compose.override.yml
 /src/Homestead.json
