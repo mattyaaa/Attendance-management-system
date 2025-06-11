@@ -83,7 +83,7 @@ docker-compose exec php bash
 cp .env .env.testing
 
 # .env.testingに以下の環境変数を追加
-``` text
+
 DB_CONNECTION=mysql
 DB_HOST=mysql
 DB_PORT=3306
@@ -93,6 +93,7 @@ DB_PASSWORD=root
 ```
 
 # APP_KEYをテスト用に生成
+```bash
 php artisan key:generate --env=testing
 ```
 - `.env.testing` の `DB_DATABASE` を `test_database` に設定してください。
