@@ -90,7 +90,6 @@ class RegisterTest extends TestCase
             'password' => 'password123',
             'password_confirmation' => 'password123',
         ]);
-        $response->dump();
 
         // DBにユーザーが保存されているか確認
         $this->assertDatabaseHas('users', [
