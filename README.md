@@ -110,6 +110,12 @@ php artisan migrate:fresh --env=testing
 php artisan db:seed --class=RoleSeeder --env=testing
 ```
 
+### キャッシュのクリア
+
+```bash
+php artisan config:clear
+```
+
 ### テストの実行
 
 ```bash
