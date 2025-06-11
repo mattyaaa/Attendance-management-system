@@ -82,6 +82,16 @@ docker-compose exec php bash
 # .env.testing ファイルを作成
 cp .env .env.testing
 
+# .env.testingに以下の環境変数を追加
+``` text
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=test_database
+DB_USERNAME=root
+DB_PASSWORD=root
+```
+
 # APP_KEYをテスト用に生成
 php artisan key:generate --env=testing
 ```
@@ -92,6 +102,12 @@ php artisan key:generate --env=testing
 
 ```bash
 php artisan migrate:fresh --env=testing
+```
+
+### テスト用DBへのシーディング
+
+```bash
+php artisan db:seed --class=RoleSeeder --env=testing
 ```
 
 ### テストの実行
